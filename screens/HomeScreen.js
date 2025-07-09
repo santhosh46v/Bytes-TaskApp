@@ -678,10 +678,10 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   completedTaskWrapper: {
-    opacity: 0.8,
     backgroundColor: 'white',
     borderRadius: 12,
     padding: 2,
+    // Removed opacity: 0.8 to make completed tasks fully opaque
   },
   emptyState: {
     alignItems: 'center',

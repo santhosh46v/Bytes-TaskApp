@@ -5,12 +5,11 @@ import {
   StyleSheet,
   TouchableOpacity,
   Animated,
-  Alert,
   PanResponder,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 
-const TaskItem = ({ task, onToggle, onEdit, onDelete }) => {
+const TaskItem = ({ task, onToggle, onEdit, onDelete, isDeleting, isCompleted }) => {
   const translateX = useRef(new Animated.Value(0)).current;
   const [isSwipeActionsVisible, setIsSwipeActionsVisible] = useState(false);
 
@@ -114,42 +113,35 @@ const TaskItem = ({ task, onToggle, onEdit, onDelete }) => {
     }).start();
   };
 
-  const confirmDelete = () => {
-    Alert.alert(
-      'Delete Task',
-      'Are you sure you want to delete this task?',
-      [
-        { 
-          text: 'Cancel', 
-          style: 'cancel',
-          onPress: hideSwipeActions
-        },
-        { 
-          text: 'Delete', 
-          style: 'destructive',
-          onPress: () => {
-            hideSwipeActions();
-            setTimeout(() => onDelete(task.id), 200);
-          }
-        },
-      ],
-      { cancelable: true }
-    );
+  const handleDelete = () => {
+    hideSwipeActions();
+    // Call the parent's delete handler directly - no confirmation here
+    // since HomeScreen.js handles the confirmation
+    setTimeout(() => onDelete(task.id), 200);
   };
 
   return (
     <View style={[
       styles.taskContainer,
+      // Removed transparency for completed tasks
       task.completed && styles.completedTaskContainer
     ]}>
       <View style={styles.swipeContainer}>
         <View style={styles.deleteActionContainer}>
           <TouchableOpacity 
             style={styles.deleteAction}
-            onPress={confirmDelete}
+            onPress={handleDelete}
+            disabled={isDeleting}
           >
-            <View style={styles.deleteActionCircle}>
-              <Ionicons name="trash-outline" size={20} color="white" />
+            <View style={[
+              styles.deleteActionCircle,
+              isDeleting && styles.deleteActionCircleDisabled
+            ]}>
+              {isDeleting ? (
+                <Ionicons name="hourglass-outline" size={20} color="white" />
+              ) : (
+                <Ionicons name="trash-outline" size={20} color="white" />
+              )}
             </View>
           </TouchableOpacity>
         </View>
@@ -258,7 +250,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   completedTaskContainer: {
-    opacity: 0.7,
+    // Removed opacity - no transparency for completed tasks
   },
   swipeContainer: {
     position: 'relative',
@@ -296,6 +288,10 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 4,
     elevation: 3,
+  },
+  deleteActionCircleDisabled: {
+    backgroundColor: '#FCA5A5',
+    opacity: 0.7,
   },
   taskItem: {
     flexDirection: 'row',
