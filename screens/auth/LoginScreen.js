@@ -21,6 +21,11 @@ import { auth } from "../../firebaseConfig";
 
 const { width, height } = Dimensions.get("window");
 
+// Responsive scaling functions
+const scaleWidth = (size) => (width / 375) * size;
+const scaleHeight = (size) => (height / 812) * size;
+const scaleFont = (size) => size * (width / 375);
+
 const LoginScreen = ({ navigation }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -140,20 +145,20 @@ const LoginScreen = ({ navigation }) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <ScrollView contentContainerStyle={styles.authContainer}>
         {/* Decorative elements */}
-        <View style={[styles.decorativeIcon, { top: 160, left: 130 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(160), left: scaleWidth(130) }]}>
           <Text style={styles.decorativeTextSmall}>✨</Text>
         </View>
-        <View style={[styles.decorativeIcon, { top: 120, right: 190 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(120), right: scaleWidth(180) }]}>
           <Text style={styles.decorativeTextSmall}>⭐</Text>
         </View>
-        <View style={[styles.decorativeIcon, { top: 160, right: 140 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(160), right: scaleWidth(140) }]}>
           <View style={styles.smallCircleGray} />
         </View>
 
         {/* Main Icon */}
         <View style={styles.authIconContainer}>
           <View style={styles.authIcon}>
-            <Icon name="check" size={40} color="#FFFFFF" />
+            <Icon name="check" size={scaleFont(40)} color="#FFFFFF" />
           </View>
         </View>
 
@@ -179,7 +184,7 @@ const LoginScreen = ({ navigation }) => {
             {emailValid && email.length > 0 && (
               <Icon
                 name="check"
-                size={20}
+                size={scaleFont(20)}
                 color="#4CAF50"
                 style={styles.checkIcon}
               />
@@ -237,7 +242,7 @@ const LoginScreen = ({ navigation }) => {
             <Text style={styles.socialButtonText}>G</Text>
           </TouchableOpacity>
           <TouchableOpacity style={[styles.socialButton, styles.appleButton]}>
-            <Icon name="apple" size={20} color="#FFFFFF" />
+            <Icon name="apple" size={scaleFont(20)} color="#FFFFFF" />
           </TouchableOpacity>
         </View>
 
@@ -266,68 +271,69 @@ const styles = StyleSheet.create({
   authContainer: {
     flexGrow: 1,
     alignItems: "center",
-    paddingHorizontal: 32,
-    paddingTop: 60,
-    paddingBottom: 40,
+    paddingHorizontal: width * 0.085,
+    paddingTop: height * 0.074,
+    paddingBottom: height * 0.049,
+    minHeight: height,
   },
   decorativeIcon: {
     position: "absolute",
     zIndex: 2,
   },
   decorativeTextSmall: {
-    fontSize: 16,
+    fontSize: scaleFont(16),
     color: "#6C63FF",
     opacity: 0.6,
   },
   smallCircleGray: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: scaleWidth(6),
+    height: scaleWidth(6),
+    borderRadius: scaleWidth(3),
     backgroundColor: "#E0E0E0",
   },
   authIconContainer: {
-    marginTop: 40,
-    marginBottom: 32,
+    marginTop: height * 0.049,
+    marginBottom: height * 0.039,
   },
   authIcon: {
-    width: 64,
-    height: 64,
-    borderRadius: 16,
+    width: scaleWidth(64),
+    height: scaleWidth(64),
+    borderRadius: scaleWidth(16),
     backgroundColor: "#6C63FF",
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#6C63FF",
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: scaleHeight(4) },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowRadius: scaleHeight(8),
     elevation: 8,
-    marginTop: 55
+    marginTop: height * 0.068,
   },
   authTitle: {
-    fontSize: 24,
+    fontSize: scaleFont(24),
     fontWeight: "600",
     color: "#2C2C2C",
-    marginBottom: 40,
+    marginBottom: height * 0.049,
     textAlign: "center",
   },
   formContainer: {
     width: "100%",
-    marginBottom: 32,
+    marginBottom: height * 0.039,
   },
   emailContainer: {
     width: "100%",
     position: "relative",
-    marginBottom: 16,
+    marginBottom: height * 0.02,
   },
   emailInput: {
     width: "100%",
-    height: 56,
+    height: scaleHeight(56),
     borderWidth: 1,
     borderColor: "#E8E8E8",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    paddingRight: 48,
-    fontSize: 16,
+    borderRadius: scaleWidth(12),
+    paddingHorizontal: scaleWidth(16),
+    paddingRight: scaleWidth(48),
+    fontSize: scaleFont(16),
     color: "#2C2C2C",
     backgroundColor: "#FAFAFA",
   },
@@ -336,45 +342,45 @@ const styles = StyleSheet.create({
   },
   checkIcon: {
     position: "absolute",
-    right: 16,
-    top: 18,
+    right: scaleWidth(16),
+    top: scaleHeight(18),
   },
   passwordContainer: {
     width: "100%",
     position: "relative",
-    marginBottom: 24,
+    marginBottom: height * 0.03,
   },
   passwordInput: {
     width: "100%",
-    height: 56,
+    height: scaleHeight(56),
     borderWidth: 1,
     borderColor: "#E8E8E8",
-    borderRadius: 12,
-    paddingHorizontal: 16,
-    fontSize: 16,
+    borderRadius: scaleWidth(12),
+    paddingHorizontal: scaleWidth(16),
+    fontSize: scaleFont(16),
     color: "#2C2C2C",
     backgroundColor: "#FAFAFA",
   },
   forgotPassword: {
     alignSelf: "flex-end",
-    marginTop: 8,
+    marginTop: scaleHeight(8),
   },
   forgotPasswordText: {
-    fontSize: 14,
+    fontSize: scaleFont(14),
     color: "#6C63FF",
     fontWeight: "500",
   },
   loginButton: {
     width: "100%",
-    height: 56,
+    height: scaleHeight(56),
     backgroundColor: "#6C63FF",
-    borderRadius: 12,
+    borderRadius: scaleWidth(12),
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#6C63FF",
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: scaleHeight(4) },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowRadius: scaleHeight(8),
     elevation: 8,
   },
   disabledButton: {
@@ -382,30 +388,30 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
   },
   loginButtonText: {
-    fontSize: 16,
+    fontSize: scaleFont(16),
     fontWeight: "600",
     color: "#FFFFFF",
   },
   orText: {
-    fontSize: 14,
+    fontSize: scaleFont(14),
     color: "#8E8E8E",
-    marginBottom: 24,
+    marginBottom: height * 0.03,
   },
   socialContainer: {
     flexDirection: "row",
-    gap: 16,
-    marginBottom: 32,
+    gap: scaleWidth(16),
+    marginBottom: height * 0.039, 
   },
   socialButton: {
-    width: 48,
-    height: 48,
-    borderRadius: 24,
+    width: scaleWidth(48),
+    height: scaleWidth(48),
+    borderRadius: scaleWidth(24),
     alignItems: "center",
     justifyContent: "center",
     shadowColor: "#000",
-    shadowOffset: { width: 0, height: 2 },
+    shadowOffset: { width: 0, height: scaleHeight(2) },
     shadowOpacity: 0.1,
-    shadowRadius: 4,
+    shadowRadius: scaleHeight(4),
     elevation: 4,
   },
   facebookButton: {
@@ -418,20 +424,21 @@ const styles = StyleSheet.create({
     backgroundColor: "#000000",
   },
   socialButtonText: {
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: "bold",
     color: "#FFFFFF",
   },
   signUpLinkContainer: {
     flexDirection: "row",
     alignItems: "center",
+    marginTop: height * 0.02,
   },
   signUpLinkText: {
-    fontSize: 14,
+    fontSize: scaleFont(14),
     color: "#8E8E8E",
   },
   signUpLink: {
-    fontSize: 14,
+    fontSize: scaleFont(14),
     color: "#6C63FF",
     fontWeight: "600",
   },

@@ -10,6 +10,7 @@ import {
   Alert,
   TextInput,
   Animated,
+  Dimensions,
 } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
@@ -18,6 +19,13 @@ import TaskItem from '../components/TaskItem';
 import TaskModal from '../components/TaskModal';
 import { taskService } from '../services/taskService';
 import { useAuth } from '../AuthContext';
+
+const { width, height } = Dimensions.get("window");
+
+// Responsive scaling functions
+const scaleWidth = (size) => (width / 375) * size;
+const scaleHeight = (size) => (height / 812) * size;
+const scaleFont = (size) => size * (width / 375);
 
 export default function HomeScreen() {
   const [tasks, setTasks] = useState([]);
@@ -260,13 +268,13 @@ export default function HomeScreen() {
         <View style={styles.headerTop}>
           <View style={styles.leftSection}>
             <View style={styles.gridIconContainer}>
-              <Ionicons name="grid-outline" size={20} color="white" />
+              <Ionicons name="grid-outline" size={scaleFont(20)} color="white" />
             </View>
             
             {/* Prominent Search Bar */}
             <View style={styles.mainSearchContainer}>
               <View style={styles.searchCircle}>
-                <Ionicons name="search-outline" size={16} color="#8B5CF6" />
+                <Ionicons name="search-outline" size={scaleFont(16)} color="#8B5CF6" />
               </View>
               <TextInput
                 style={styles.mainSearchInput}
@@ -280,7 +288,7 @@ export default function HomeScreen() {
                   style={styles.clearButton}
                   onPress={() => setSearchQuery('')}
                 >
-                  <Ionicons name="close" size={14} color="rgba(255,255,255,0.7)" />
+                  <Ionicons name="close" size={scaleFont(14)} color="rgba(255,255,255,0.7)" />
                 </TouchableOpacity>
               )}
             </View>
@@ -292,9 +300,9 @@ export default function HomeScreen() {
             disabled={loggingOut}
           >
             {loggingOut ? (
-              <Ionicons name="hourglass-outline" size={20} color="rgba(255,255,255,0.6)" />
+              <Ionicons name="hourglass-outline" size={scaleFont(20)} color="rgba(255,255,255,0.6)" />
             ) : (
-              <Ionicons name="ellipsis-horizontal" size={20} color="white" />
+              <Ionicons name="ellipsis-horizontal" size={scaleFont(20)} color="white" />
             )}
           </TouchableOpacity>
         </View>
@@ -401,7 +409,7 @@ export default function HomeScreen() {
           <View style={[styles.section, styles.completedSection]}>
             <View style={styles.completedSectionHeader}>
               <View style={styles.completedTitleContainer}>
-                <Ionicons name="checkmark-circle" size={20} color="#10B981" />
+                <Ionicons name="checkmark-circle" size={scaleFont(20)} color="#10B981" />
                 <Text style={[styles.sectionTitle, styles.completedSectionTitle]}>
                   Completed
                 </Text>
@@ -433,7 +441,7 @@ export default function HomeScreen() {
         {/* Empty State */}
         {filteredTasks.length === 0 && !searchQuery && (
           <View style={styles.emptyState}>
-            <Ionicons name="checkmark-circle-outline" size={64} color="#DDD" />
+            <Ionicons name="checkmark-circle-outline" size={scaleFont(64)} color="#DDD" />
             <Text style={styles.emptyStateTitle}>No tasks yet</Text>
             <Text style={styles.emptyStateText}>
               Create your first task to get started!
@@ -444,7 +452,7 @@ export default function HomeScreen() {
         {/* No Search Results */}
         {filteredTasks.length === 0 && searchQuery && (
           <View style={styles.emptyState}>
-            <Ionicons name="search-outline" size={64} color="#DDD" />
+            <Ionicons name="search-outline" size={scaleFont(64)} color="#DDD" />
             <Text style={styles.emptyStateTitle}>No results found</Text>
             <Text style={styles.emptyStateText}>
               Try adjusting your search terms
@@ -458,12 +466,12 @@ export default function HomeScreen() {
       {/* Bottom Navigation */}
       <View style={styles.bottomNav}>
         <TouchableOpacity style={styles.navItem}>
-          <Ionicons name="list" size={24} color="#8B5CF6" />
+          <Ionicons name="list" size={scaleFont(24)} color="#8B5CF6" />
           <Text style={styles.activeNavText}>Tasks</Text>
         </TouchableOpacity>
         
         <TouchableOpacity style={styles.navItem2}>
-          <Ionicons name="calendar-outline" size={24} color="#9CA3AF" />
+          <Ionicons name="calendar-outline" size={scaleFont(24)} color="#9CA3AF" />
           <Text style={styles.navText}>Calendar</Text>
         </TouchableOpacity>
       </View>
@@ -472,7 +480,7 @@ export default function HomeScreen() {
         style={styles.fab}
         onPress={() => setModalVisible(true)}
       >
-        <Ionicons name="add" size={24} color="white" />
+        <Ionicons name="add" size={scaleFont(24)} color="white" />
       </TouchableOpacity>
       
       <TaskModal
@@ -499,76 +507,75 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   loadingText: {
-    fontSize: 16,
+    fontSize: scaleFont(16),
     color: '#666',
   },
   header: {
-    paddingHorizontal: 20,
-    paddingTop: 40,
-    paddingBottom: 24,
-    borderBottomLeftRadius: 24,
-    borderBottomRightRadius: 24,
+    paddingHorizontal: scaleWidth(20),
+    paddingTop: scaleHeight(40),
+    paddingBottom: scaleHeight(24),
+    borderBottomLeftRadius: scaleWidth(24),
+    borderBottomRightRadius: scaleWidth(24),
   },
   headerTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginBottom: 16,
+    marginBottom: scaleHeight(16),
   },
   leftSection: {
     flexDirection: 'row',
     alignItems: 'center',
     flex: 1,
-    gap: 12,
+    gap: scaleWidth(12),
   },
   gridIconContainer: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: scaleWidth(32),
+    height: scaleWidth(32),
+    borderRadius: scaleWidth(16),
     backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
   },
   mainSearchContainer: {
-    width: 250,
+    width: scaleWidth(250),
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: 'white',
-    borderRadius: 20,
-    paddingHorizontal: 4,
-    paddingVertical: 4,
-    height: 36,
-    marginLeft: 8
+    borderRadius: scaleWidth(20),
+    paddingHorizontal: scaleWidth(4),
+    paddingVertical: scaleHeight(4),
+    height: scaleHeight(36),
   },
   searchCircle: {
-    width: 28,
-    height: 28,
-    borderRadius: 14,
+    width: scaleWidth(28),
+    height: scaleWidth(28),
+    borderRadius: scaleWidth(14),
     backgroundColor: '#F3F4F6',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 8,
+    marginRight: scaleWidth(8),
   },
   mainSearchInput: {
     flex: 1,
     color: '#333',
-    fontSize: 14,
+    fontSize: scaleFont(14),
     padding: 0,
     height: '100%',
   },
   clearButton: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
+    width: scaleWidth(20),
+    height: scaleWidth(20),
+    borderRadius: scaleWidth(10),
     backgroundColor: 'rgba(0,0,0,0.1)',
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 4,
+    marginRight: scaleWidth(4),
   },
   iconButton: {
-    width: 32,
-    height: 32,
-    borderRadius: 16,
+    width: scaleWidth(32),
+    height: scaleWidth(32),
+    borderRadius: scaleWidth(16),
     backgroundColor: 'rgba(255,255,255,0.2)',
     justifyContent: 'center',
     alignItems: 'center',
@@ -579,70 +586,70 @@ const styles = StyleSheet.create({
   },
   headerDate: {
     color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 14,
-    marginBottom: 4,
+    fontSize: scaleFont(14),
+    marginBottom: scaleHeight(4),
   },
   headerTitleContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'baseline',
-    marginBottom: 16,
+    marginBottom: scaleHeight(16),
   },
   headerTitle: {
     color: 'white',
-    fontSize: 24,
+    fontSize: scaleFont(24),
     fontWeight: 'bold',
   },
   searchResults: {
     color: 'rgba(255, 255, 255, 0.8)',
-    fontSize: 12,
+    fontSize: scaleFont(12),
   },
   progressContainer: {
-    marginTop: 8,
+    marginTop: scaleHeight(8),
   },
   progressText: {
     color: 'rgba(255, 255, 255, 0.9)',
-    fontSize: 12,
-    marginBottom: 8,
+    fontSize: scaleFont(12),
+    marginBottom: scaleHeight(8),
   },
   progressBar: {
-    height: 4,
+    height: scaleHeight(4),
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    borderRadius: 2,
+    borderRadius: scaleWidth(2),
     overflow: 'hidden',
   },
   progressFill: {
     height: '100%',
     backgroundColor: 'white',
-    borderRadius: 2,
+    borderRadius: scaleWidth(2),
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
-    paddingTop: 20,
+    paddingHorizontal: scaleWidth(20),
+    paddingTop: scaleHeight(20),
   },
   searchResultsContainer: {
-    marginBottom: 16,
+    marginBottom: scaleHeight(16),
   },
   searchResultsText: {
-    fontSize: 14,
+    fontSize: scaleFont(14),
     color: '#666',
     fontStyle: 'italic',
   },
   section: {
-    marginBottom: 24,
+    marginBottom: scaleHeight(24),
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '600',
     color: '#1F2937',
-    marginBottom: 12,
+    marginBottom: scaleHeight(12),
   },
   completedSection: {
     backgroundColor: '#F8FBF8',
-    borderRadius: 16,
-    padding: 16,
-    marginBottom: 24,
+    borderRadius: scaleWidth(16),
+    padding: scaleWidth(16),
+    marginBottom: scaleHeight(24),
     borderWidth: 1,
     borderColor: '#E6F7E6',
   },
@@ -650,7 +657,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    marginBottom: 16,
+    marginBottom: scaleHeight(16),
   },
   completedTitleContainer: {
     flexDirection: 'row',
@@ -658,102 +665,101 @@ const styles = StyleSheet.create({
   },
   completedSectionTitle: {
     color: '#10B981',
-    marginLeft: 8,
+    marginLeft: scaleWidth(8),
     marginBottom: 0,
   },
   completedBadge: {
     backgroundColor: '#D1FAE5',
-    borderRadius: 12,
-    paddingHorizontal: 10,
-    paddingVertical: 4,
+    borderRadius: scaleWidth(12),
+    paddingHorizontal: scaleWidth(10),
+    paddingVertical: scaleHeight(4),
     borderWidth: 1,
     borderColor: '#A7F3D0',
   },
   completedBadgeText: {
-    fontSize: 12,
+    fontSize: scaleFont(12),
     fontWeight: '600',
     color: '#059669',
   },
   completedTasksContainer: {
-    gap: 8,
+    gap: scaleHeight(8),
   },
   completedTaskWrapper: {
     backgroundColor: 'white',
-    borderRadius: 12,
-    padding: 2,
-    // Removed opacity: 0.8 to make completed tasks fully opaque
+    borderRadius: scaleWidth(12),
+    padding: scaleWidth(2),
   },
   emptyState: {
     alignItems: 'center',
     justifyContent: 'center',
-    paddingVertical: 60,
+    paddingVertical: scaleHeight(60),
   },
   emptyStateTitle: {
-    fontSize: 18,
+    fontSize: scaleFont(18),
     fontWeight: '600',
     color: '#333',
-    marginTop: 16,
-    marginBottom: 8,
+    marginTop: scaleHeight(16),
+    marginBottom: scaleHeight(8),
   },
   emptyStateText: {
-    fontSize: 14,
+    fontSize: scaleFont(14),
     color: '#666',
     textAlign: 'center',
   },
   bottomNav: {
     flexDirection: 'row',
     backgroundColor: 'white',
-    paddingVertical: 12,
-    paddingHorizontal: 40,
+    paddingVertical: scaleHeight(12),
+    paddingHorizontal: scaleWidth(40),
     borderTopWidth: 1,
     borderTopColor: '#F0F0F0',
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
+    borderTopLeftRadius: scaleWidth(20),
+    borderTopRightRadius: scaleWidth(20),
   },
   navItem: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 6,
+    paddingVertical: scaleHeight(6),
     position: 'relative',
-    marginRight: 140
+    marginRight: scaleWidth(140)
   },
   navItem2: {
     flex: 1,
     alignItems: 'center',
-    paddingVertical: 8,
+    paddingVertical: scaleHeight(8),
     position: 'relative',
   },
   activeNavText: {
-    fontSize: 12,
+    fontSize: scaleFont(12),
     color: '#8B5CF6',
     fontWeight: '600',
-    marginTop: 4,
+    marginTop: scaleHeight(4),
   },
   navText: {
-    fontSize: 12,
+    fontSize: scaleFont(12),
     color: '#9CA3AF',
-    marginTop: 4,
+    marginTop: scaleHeight(4),
   },
   fab: {
     position: 'absolute',
-    bottom: 40,
-    right: 165,
-    width: 56,
-    height: 56,
-    borderRadius: 28,
+    bottom: scaleHeight(40),
+    right: scaleWidth(165),
+    width: scaleWidth(56),
+    height: scaleWidth(56),
+    borderRadius: scaleWidth(28),
     backgroundColor: '#8B5CF6',
     justifyContent: 'center',
     alignItems: 'center',
     shadowColor: '#8B5CF6',
     shadowOffset: {
       width: 0,
-      height: 4,
+      height: scaleHeight(4),
     },
     shadowOpacity: 0.3,
-    shadowRadius: 8,
+    shadowRadius: scaleHeight(8),
     elevation: 8,
   },
   bottomPadding: {
-    height: 100,
+    height: scaleHeight(100),
   },
 });

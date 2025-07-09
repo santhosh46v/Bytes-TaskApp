@@ -12,6 +12,11 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 
 const { width, height } = Dimensions.get('window');
 
+// Responsive scaling functions
+const scaleWidth = (size) => (width / 375) * size;
+const scaleHeight = (size) => (height / 812) * size;
+const scaleFont = (size) => size * (width / 375);
+
 const WelcomeScreen = ({ navigation }) => {
   return (
     <SafeAreaView style={styles.container}>
@@ -19,29 +24,29 @@ const WelcomeScreen = ({ navigation }) => {
       
       <View style={styles.mainSection}>
         {/* Decorative elements */}
-        <View style={[styles.decorativeIcon, { top: 160, left: 65 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(160), left: scaleWidth(65) }]}>
           <Text style={styles.decorativeEmoji}>✨</Text>
         </View>
-        <View style={[styles.decorativeIcon, { top: 120, left: 130 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(110), left: scaleWidth(130) }]}>
           <Text style={styles.decorativeEmoji}>⭐</Text>
         </View>
-        <View style={[styles.decorativeIcon, { top: 200, left: 70 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(200), left: scaleWidth(70) }]}>
           <View style={styles.orangeDot} />
         </View>
-        <View style={[styles.decorativeIcon, { top: 180, right: 170 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(180), right: scaleWidth(160) }]}>
           <View style={styles.purpleDot} />
         </View>
-        <View style={[styles.decorativeIcon, { top: 240, left: 70 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(240), left: scaleWidth(70) }]}>
           <View style={styles.grayDot} />
         </View>
-        <View style={[styles.decorativeIcon, { top: 260, right: 180 }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(260), right: scaleWidth(180) }]}>
           <View style={styles.smallPurpleDot} />
         </View>
 
         {/* Main Icon */}
         <View style={styles.mainIconContainer}>
           <View style={styles.mainIcon}>
-            <Icon name="check" size={45} color="#FFFFFF" />
+            <Icon name="check" size={scaleFont(45)} color="#FFFFFF" />
           </View>
         </View>
 
@@ -66,7 +71,7 @@ const WelcomeScreen = ({ navigation }) => {
         <View style={styles.curvedBackground} />
         
         <TouchableOpacity style={styles.nextButton} onPress={() => navigation.navigate('SignUp')} >
-          <Icon name="arrow-forward" size={40} color="#FFFFFF" />
+          <Icon name="arrow-forward" size={scaleFont(40)} color="#FFFFFF" />
         </TouchableOpacity>
       
       </View>
@@ -85,11 +90,12 @@ const styles = StyleSheet.create({
     alignItems: 'flex-start',
     justifyContent: 'center',
     position: 'relative',
-    paddingHorizontal: 40,
-    paddingLeft: 40,
+    paddingHorizontal: width * 0.107, 
+    paddingLeft: width * 0.107, 
+    minHeight: height * 0.7,
   },
   bottomSection: {
-    height: 200,
+    height: scaleHeight(200),
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
@@ -97,9 +103,9 @@ const styles = StyleSheet.create({
   curvedBackground: {
     position: 'absolute',
     bottom: 0,
-    left: 230,
+    left: width * 0.613, 
     right: 0,
-    height: 200,
+    height: scaleHeight(185),
     backgroundColor: '#6C63FF',
     borderTopLeftRadius: width * 0.9,
     transform: [{ scaleX: 1.2 }],
@@ -109,112 +115,112 @@ const styles = StyleSheet.create({
     zIndex: 1,
   },
   decorativeEmoji: {
-    fontSize: 16,
+    fontSize: scaleFont(16),
     opacity: 0.6,
   },
   orangeDot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
+    width: scaleWidth(6),
+    height: scaleWidth(6),
+    borderRadius: scaleWidth(3),
     backgroundColor: '#FF9500',
     opacity: 0.8,
   },
   purpleDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: scaleWidth(8),
+    height: scaleWidth(8),
+    borderRadius: scaleWidth(4),
     backgroundColor: '#6C63FF',
     opacity: 0.6,
   },
   grayDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
+    width: scaleWidth(4),
+    height: scaleWidth(4),
+    borderRadius: scaleWidth(2),
     backgroundColor: '#C7C7CC',
     opacity: 0.8,
   },
   smallPurpleDot: {
-    width: 4,
-    height: 4,
-    borderRadius: 2,
+    width: scaleWidth(4),
+    height: scaleWidth(4),
+    borderRadius: scaleWidth(2),
     backgroundColor: '#6C63FF',
     opacity: 0.4,
   },
   mainIconContainer: {
-    marginBottom: 40,
+    marginBottom: scaleHeight(40),
     zIndex: 2,
     alignSelf: 'flex-start',
   },
   mainIcon: {
-    width: 100,
-    height: 100,
-    borderRadius: 20,
+    width: scaleWidth(100),
+    height: scaleWidth(100),
+    borderRadius: scaleWidth(20),
     backgroundColor: '#6C63FF',
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#6C63FF',
-    shadowOffset: { width: 0, height: 8 },
+    shadowOffset: { width: 0, height: scaleHeight(8) },
     shadowOpacity: 0.3,
-    shadowRadius: 16,
+    shadowRadius: scaleHeight(16),
     elevation: 12,
-    marginLeft: 55
+    marginLeft: scaleWidth(55),
   },
   textContainer: {
     alignItems: 'flex-start',
-    marginBottom: 50,
+    marginBottom: scaleHeight(50),
     zIndex: 2,
     width: '100%',
   },
   mainTitle: {
-    fontSize: 28,
+    fontSize: scaleFont(28),
     fontWeight: 'bold',
     color: '#2C2C2E',
-    marginBottom: 16,
+    marginBottom: scaleHeight(16),
     textAlign: 'left',
   },
   subtitle: {
-    fontSize: 16,
+    fontSize: scaleFont(16),
     color: '#8E8E93',
     textAlign: 'left',
-    lineHeight: 24,
+    lineHeight: scaleHeight(24),
     fontWeight: '400',
   },
   pageIndicators: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'flex-start',
-    marginBottom: 20,
+    marginBottom: scaleHeight(20),
     zIndex: 2,
     alignSelf: 'flex-start',
   },
   indicator: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
+    width: scaleWidth(8),
+    height: scaleWidth(8),
+    borderRadius: scaleWidth(4),
     backgroundColor: '#E5E5EA',
-    marginHorizontal: 4,
+    marginHorizontal: scaleWidth(4),
   },
   activeIndicator: {
     backgroundColor: '#6C63FF',
-    width: 20,
-    borderRadius: 4,
+    width: scaleWidth(20),
+    borderRadius: scaleWidth(4),
   },
   nextButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
+    width: scaleWidth(60),
+    height: scaleWidth(60),
+    borderRadius: scaleWidth(30),
     backgroundColor: '#6C63FF',
     alignItems: 'center',
     justifyContent: 'center',
     shadowColor: '#6C63FF',
-    shadowOffset: { width: 0, height: 4 },
+    shadowOffset: { width: 0, height: scaleHeight(4) },
     shadowOpacity: 0.3,
-    shadowRadius: 12,
+    shadowRadius: scaleHeight(12),
     elevation: 8,
     zIndex: 3,
     position: 'absolute',
-    bottom: 60,
-    right: 30,
+    bottom: scaleHeight(60),
+    right: scaleWidth(30),
   },
 });
 
