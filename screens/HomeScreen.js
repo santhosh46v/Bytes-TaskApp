@@ -441,7 +441,7 @@ export default function HomeScreen() {
         {/* Empty State */}
         {filteredTasks.length === 0 && !searchQuery && (
           <View style={styles.emptyState}>
-            <Ionicons name="checkmark-circle-outline" size={scaleFont(64)} color="#DDD" />
+            <Ionicons name="checkmark-circle-outline" size={scaleFont(63)} color="#DDD" />
             <Text style={styles.emptyStateTitle}>No tasks yet</Text>
             <Text style={styles.emptyStateText}>
               Create your first task to get started!

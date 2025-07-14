@@ -24,7 +24,7 @@ const WelcomeScreen = ({ navigation }) => {
       
       <View style={styles.mainSection}>
         {/* Decorative elements */}
-        <View style={[styles.decorativeIcon, { top: scaleHeight(160), left: scaleWidth(65) }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(161), left: scaleWidth(65) }]}>
           <Text style={styles.decorativeEmoji}>✨</Text>
         </View>
         <View style={[styles.decorativeIcon, { top: scaleHeight(110), left: scaleWidth(130) }]}>

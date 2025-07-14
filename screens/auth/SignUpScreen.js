@@ -102,7 +102,7 @@ const SignUpScreen = ({ navigation }) => {
       <StatusBar barStyle="dark-content" backgroundColor="#FFFFFF" />
       <ScrollView contentContainerStyle={styles.authContainer}>
         {/* Decorative elements */}
-        <View style={[styles.decorativeIcon, { top: scaleHeight(160), left: scaleWidth(130) }]}>
+        <View style={[styles.decorativeIcon, { top: scaleHeight(161), left: scaleWidth(130) }]}>
           <Text style={styles.decorativeTextSmall}>✨</Text>
         </View>
         <View style={[styles.decorativeIcon, { top: scaleHeight(120), right: scaleWidth(180) }]}>
