@@ -17,7 +17,7 @@ import {
   signInWithEmailAndPassword,
   sendPasswordResetEmail,
 } from "firebase/auth";
-import { auth } from "../../firebaseConfig";
+import { auth } from "../../../firebaseConfig";
 
 const { width, height } = Dimensions.get("window");
 

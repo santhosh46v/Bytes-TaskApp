@@ -18,7 +18,7 @@ import { Ionicons } from '@expo/vector-icons';
 import TaskItem from '../components/TaskItem';
 import TaskModal from '../components/TaskModal';
 import { taskService } from '../services/taskService';
-import { useAuth } from '../AuthContext';
+import { useAuth } from '../contexts/AuthContext';
 
 const { width, height } = Dimensions.get("window");
 
@@ -40,17 +40,22 @@ export default function HomeScreen() {
   const { logout, user } = useAuth();
 
   useEffect(() => {
-    loadTasks();
-  }, []);
+    if (user?.uid) {
+      loadTasks();
+    }
+  }, [user]);
 
   useEffect(() => {
     filterTasks();
   }, [tasks, searchQuery]);
 
   const loadTasks = async () => {
+    if (!user?.uid) {
+      return;
+    }
     try {
       setLoading(true);
-      const tasksData = await taskService.getAllTasks();
+      const tasksData = await taskService.getAllTasks(user.uid);
       setTasks(tasksData);
     } catch (error) {
       Alert.alert('Error', 'Failed to load tasks');
@@ -75,14 +80,18 @@ export default function HomeScreen() {
   };
 
   const handleSaveTask = async (taskData) => {
+    if (!user?.uid) {
+      Alert.alert('Error', 'User not authenticated');
+      return;
+    }
     try {
       if (editingTask) {
-        await taskService.updateTask(editingTask.id, taskData);
+        await taskService.updateTask(editingTask.id, taskData, user.uid);
         setTasks(tasks.map(task => 
-          task.id === editingTask.id ? { ...task, ...taskData } : task
+          task.id === editingTask.id ? { ...task, ...taskData, userId: user.uid } : task
         ));
       } else {
-        const newTask = await taskService.createTask(taskData);
+        const newTask = await taskService.createTask(taskData, user.uid);
         setTasks([newTask, ...tasks]);
       }
       setModalVisible(false);
@@ -94,11 +103,15 @@ export default function HomeScreen() {
   };
 
   const handleToggleTask = async (taskId) => {
+    if (!user?.uid) {
+      Alert.alert('Error', 'User not authenticated');
+      return;
+    }
     try {
       const task = tasks.find(t => t.id === taskId);
       const updatedCompleted = !task.completed;
       
-      await taskService.toggleTaskCompletion(taskId, updatedCompleted);
+      await taskService.toggleTaskCompletion(taskId, updatedCompleted, user.uid);
       
       setTasks(tasks.map(t => 
         t.id === taskId ? { ...t, completed: updatedCompleted } : t
@@ -127,9 +140,13 @@ export default function HomeScreen() {
           text: 'Delete',
           style: 'destructive',
           onPress: async () => {
+            if (!user?.uid) {
+              Alert.alert('Error', 'User not authenticated');
+              return;
+            }
             try {
               setDeletingTaskId(taskId); 
-              await taskService.deleteTask(taskId);
+              await taskService.deleteTask(taskId, user.uid);
               setTasks(tasks.filter(t => t.id !== taskId));
               setDeletingTaskId(null); 
             } catch (error) {

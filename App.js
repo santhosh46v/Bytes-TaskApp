@@ -3,11 +3,11 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { View, Text, ActivityIndicator, StyleSheet } from 'react-native';
 
-import { AuthProvider, useAuth } from './AuthContext';
-import WelcomeScreen from './screens/auth/WelcomeScreen';
-import SignUpScreen from './screens/auth/SignUpScreen';
-import LoginScreen from './screens/auth/LoginScreen';
-import HomeScreen from './screens/HomeScreen'; 
+import { AuthProvider, useAuth } from './src/contexts/AuthContext';
+import WelcomeScreen from './src/screens/auth/WelcomeScreen';
+import SignUpScreen from './src/screens/auth/SignUpScreen';
+import LoginScreen from './src/screens/auth/LoginScreen';
+import HomeScreen from './src/screens/HomeScreen'; 
 
 const Stack = createNativeStackNavigator();
 

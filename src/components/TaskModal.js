@@ -9,6 +9,7 @@ import {
   Modal,
   Alert,
   Platform,
+  StatusBar,
 } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import DateTimePicker from '@react-native-community/datetimepicker';
@@ -45,6 +46,17 @@ const TaskModal = ({ visible, task, onClose, onSave }) => {
       setCategory('');
     }
   }, [task, visible]);
+
+  // Manage status bar style based on modal visibility
+  useEffect(() => {
+    if (visible) {
+      // Set status bar to dark-content when modal is open
+      StatusBar.setBarStyle('dark-content', true);
+    } else {
+      // Restore status bar to light-content when modal closes
+      StatusBar.setBarStyle('light-content', true);
+    }
+  }, [visible]);
 
   const handleSave = () => {
     if (!title.trim()) {
